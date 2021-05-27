@@ -6,7 +6,7 @@ CSS  = ../css/style.css
 all: $(OBJ)
 
 doc/%.html: src/%.md
-	pandoc -s -c $(CSS) $< > $@
+	pandoc -s --shift-heading-level-by=1 -c $(CSS) $< > $@
 
 src/%.md:
 	touch $@
