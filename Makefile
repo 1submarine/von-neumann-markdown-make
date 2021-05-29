@@ -1,12 +1,10 @@
-SRC := $(wildcard src/*.md)
-OBJ := $(subst src,doc,$(subst .md,.html,$(SRC)))
-CSS  = /Users/renzo/Documents/fiction/spinward_reaches/wiki/css/style.css
+all: doc
 
-.PHONY: all
-all: $(OBJ)
-
-doc/%.html: src/%.md
-	pandoc -s --shift-heading-level-by=1 -c $(CSS) $< > $@
-
-src/%.md:
-	touch $@
+doc:
+	# Create copy of source dir in doc
+	rm -r doc
+	cp -r src doc
+	# Copy make file and run
+	cp tpl/Makefile doc
+	cd doc && $(MAKE)
+	rm doc/Makefile
