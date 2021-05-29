@@ -1,6 +1,6 @@
 SRC := $(wildcard src/*.md)
 OBJ := $(subst src,doc,$(subst .md,.html,$(SRC)))
-CSS  = ../css/style.css
+CSS  = /Users/renzo/Documents/fiction/spinward_reaches/wiki/css/style.css
 
 .PHONY: all
 all: $(OBJ)
