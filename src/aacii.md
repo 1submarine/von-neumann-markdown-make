@@ -5,4 +5,4 @@ author: "Lorenzo Ravaglia"
 | Foo |
 |-----|
 | bar |
-![<!--placeholder-->](../img/aacii.svg)
+![<!--placeholder-->](/img/aacii.svg)
