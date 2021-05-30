@@ -11,5 +11,7 @@ doc:
 	cp -r img doc/
 	# Copy make file and run
 	cp tpl/Makefile doc
-	cd doc && $(MAKE)
-	rm doc/Makefile
+	cd doc && gmake
+	# cover links
+	find doc -name '*.html' -exec sed -i.bak -e 's/\.md/\//g' {} \;
+	find doc -name '*.bak'  -exec rm {} +

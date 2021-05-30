@@ -1,0 +1,6 @@
+replace .md with .html with sed -i.bak
+comp .bak with release via cat through sed
+abuse index.html in make rule yes
+set project root without manual editing yes
+have makefiles copy themselves! yes
+gmake
