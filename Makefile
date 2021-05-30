@@ -1,8 +1,9 @@
+export ROOT := $(PWD)
 all: doc
 
 doc:
 	# Create copy of source dir in doc
-	rm -r doc || true
+	rm -r doc
 	cp -r src doc
 	# Copy CSS into dir
 	mkdir doc/css
@@ -14,4 +15,5 @@ doc:
 	cd doc && gmake
 	# cover links
 	find doc -name '*.html' -exec sed -i.bak -e 's/\.md/\//g' {} \;
+	find doc -name '*.html' -exec sed -i.bak -e 's/index.md//g' {} \;
 	find doc -name '*.bak'  -exec rm {} +
