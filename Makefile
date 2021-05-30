@@ -2,7 +2,7 @@ all: doc
 
 doc:
 	# Create copy of source dir in doc
-	rm -r doc
+	rm -r doc || true
 	cp -r src doc
 	# Copy CSS into dir
 	mkdir doc/css
