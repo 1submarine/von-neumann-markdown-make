@@ -1,30 +1,32 @@
 HEADER  := $(ROOT)/tpl/header.html
 FOOTER  := $(ROOT)/tpl/footer.html
-CSS     := $(shell realpath --relative-to=$(PWD) $(ROOT))/css/style.css
+CSS     := /style.css
 
 CC      := pandoc
-FLAGS   := -s --shift-heading-level-by=1 -c $(CSS) --include-before-body=$(HEADER) --include-after-body=$(FOOTER)
+CCFLAGS := --standalone --shift-heading-level-by=1 --css=$(CSS) --include-before-body=$(HEADER) --include-after-body=$(FOOTER) --preserve-tabs --template=$(ROOT)/tpl/template.html
 
-TARGETS := $(subst .md,.html,$(wildcard *.md))
+LI      := tidy
+LIFLAGS := -asxhtml -i --indent-with-tabs yes --quiet yes -w 80 --tidy-mark no -m
+
+TARGETS := $(subst index,,$(subst .md,,$(wildcard *.md)))
 SUBDIRS := $(wildcard */.)
 
-
-all: $(TARGETS) $(SUBDIRS)
+all: $(TARGETS) $(SUBDIRS) index.html
 	rm Makefile
 
 $(SUBDIRS):
 	cp Makefile $@
-	cd $@ && gmake
+	cd $@ && $(MAKE)
 
-.ONESHELL:
-%.html: %.md
-	@if [ $@ = index.html ]; then
-	$(CC) $(FLAGS) $< > $@ && rm $<
-	else
-	NAME=`echo $@ | sed 's/.html//'`
-	mkdir $$NAME
-	$(CC) $(FLAGS) $< > $$NAME/index.html && rm $<
-	fi
+$(TARGETS):
+	mkdir $@
+	$(CC) $(CCFLAGS) $@.md > $@/index.html
+	$(LI) $(LIFLAGS) $@/index.html
+	cd $@ && sed -i.bak 's/\.md/\//g' *.html && rm *.bak
+	rm $@.md
 
-%.md:
-	touch $@
+index.html:
+	$(CC) $(CCFLAGS) index.md > $@
+	$(LI) $(LIFLAGS) index.html
+	sed -i.bak 's/\.md/\//g' *.html
+	rm *.bak index.md
